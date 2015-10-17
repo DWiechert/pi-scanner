@@ -20,7 +20,7 @@ def main(argv):
 		if opt in ("-i", "--ifile"):
 			oauthFile = arg		
 	
-	print 'Input file is "', oauthFile
+	print('Input file is [%s].' % oauthFile)
 	
 	json_key = json.load(open(oauthFile))
 	scope = ['https://spreadsheets.google.com/feeds']
@@ -31,12 +31,17 @@ def main(argv):
 	
 	wks = gc.open("Test Sheet 1").sheet1
 	
+	print('Cell A1 is [%s].' % wks.acell('A1').value)
+	print('Cell A2 is [%s].' % wks.acell('A2').value)
+	print('Cell B1 is [%s].' % wks.acell('B1').value)
+	print('Cell B2 is [%s].' % wks.acell('B2').value)
+		
 	while True:    # Read input forever
 		barcode = raw_input("Enter the barcode: ")
 		if barcode == "quit":
 			break  # Exit the program
 		else:
-			print('Barcode is %s \n' % (barcode))
+			print('Barcode is %s \n' % barcode)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
