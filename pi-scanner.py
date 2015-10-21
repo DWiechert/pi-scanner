@@ -6,6 +6,7 @@ Barcode scanner project for the Raspberry Pi.
 import sys, getopt
 import json
 import gspread
+from gspread.exceptions import CellNotFound
 from oauth2client.client import SignedJwtAssertionCredentials
 
 def main(argv):
@@ -40,8 +41,18 @@ def main(argv):
 		barcode = raw_input("Enter the barcode: ")
 		if barcode == "quit":
 			break  # Exit the program
-		else:
-			print('Barcode is %s \n' % barcode)
+
+		print('Barcode is %s \n' % barcode)
+		try:
+			cell = wks.find(barcode)
+			print('Barcode found at row %s column %s' % (cell.row, cell.col))
+		except CellNotFound:
+			wks.add_rows(1)
+			row_count = wks.row_count
+			wks.update_cell(row_count, 1, barcode)
+			cell = wks.find(barcode)
+			print('Barcode added at row %s column %s' % (cell.row, cell.col))
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
