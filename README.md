@@ -6,13 +6,12 @@ Barcode scanner project for the Raspberry Pi.
 * **[Installation](#installation)**
 * **[Running](#running)**
 
-## Requirements
 _Notes:_
 
 1. _These instructions are for Debian based UNIX systems_
 2. _These instructions should be performed on the system which will be running the program_
 
-
+## Requirements
 * python2.7
 ```
 sudo apt-get install python2.7
