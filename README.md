@@ -8,8 +8,8 @@ Barcode scanner project for the Raspberry Pi.
 
 _Notes:_
 
-1. _These instructions are for Debian based UNIX systems_
-2. _These instructions should be performed on the system which will be running the program_
+1. _These instructions are for Debian based UNIX systems._
+2. _These instructions should be performed on the system which will be running the program._
 
 ## Requirements
 * python2.7
@@ -24,11 +24,11 @@ sudo apt-get install python-pip
  * Follow the instructions on how to create an oauth [key and file](http://gspread.readthedocs.org/en/latest/oauth2.html)
 
 ## Installation
-Clone the project:
+* Clone the project
 ```
 git clone https://github.com/DWiechert/pi-scanner.git
 ```
-Download the oauth file created in the [requirements](#requirements).
+* Download the oauth file created in the [requirements](#requirements)
 
 ## Running
 To run, the oauth file downloaded in the [requirements](#requirements) must be passed in with the `-i` argument:
