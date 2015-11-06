@@ -9,6 +9,11 @@ Barcode scanner project for the Raspberry Pi.
 ## Requirement
 
 ## Installation
+Clone the project:
+```
+git clone https://github.com/DWiechert/pi-scanner.git
+```
+Download the oauth file created in the [requirements](#requirements).
 
 ## Running
 To run, the oauth file downloaded in the [requirements](#requirements) must be passed in with the `-i` argument:
