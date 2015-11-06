@@ -12,6 +12,10 @@ _Notes:_
 2. _These instructions should be performed on the system which will be running the program._
 
 ## Requirements
+* git
+```
+sudo apt-get install git
+```
 * python2.7
 ```
 sudo apt-get install python2.7
@@ -24,7 +28,7 @@ sudo apt-get install python-pip
  * Follow the instructions on how to create an oauth [key and file](http://gspread.readthedocs.org/en/latest/oauth2.html)
 
 ## Installation
-* Clone the project
+* Use git to clone the project
 ```
 git clone https://github.com/DWiechert/pi-scanner.git
 ```
