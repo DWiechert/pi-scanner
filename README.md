@@ -6,7 +6,23 @@ Barcode scanner project for the Raspberry Pi.
 * **[Installation](#installation)**
 * **[Running](#running)**
 
-## Requirement
+## Requirements
+_Notes:_
+
+1. _These instructions are for Debian based UNIX systems_
+2. _These instructions should be performed on the system which will be running the program_
+
+
+* python2.7
+```
+sudo apt-get install python2.7
+```
+* python-pip
+```
+sudo apt-get install python-pip
+```
+* [gspread](https://github.com/burnash/gspread)
+ * Follow the instructions on how to create an oauth [key and file](http://gspread.readthedocs.org/en/latest/oauth2.html)
 
 ## Installation
 Clone the project:
