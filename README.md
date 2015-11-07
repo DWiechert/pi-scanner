@@ -43,6 +43,14 @@ To run, 3 command line arguments are required:
 An example run is:
 ```
 python pi-scanner.py -i <path to oauth json file> -sn <excel spreadsheet name> -ws <worksheet name>
+
+dan@cbpp:~/documents/pi-scanner$ python pi-scanner.py -i oauth.json -sn "My Excel Spreadsheet" -ws "Sheet1"
+
+========================================
+Input file is [oauth.json].
+Excel sheet name is [My Excel Spreadsheet].
+Work sheet name is [Sheet1].
+========================================
 ```
 The `-h` option is available to see the options:
 ```
