@@ -13,21 +13,19 @@ def main(argv):
 	parser = argparse.ArgumentParser(description='pi-scanner - Barcode scanner project for the Raspberry Pi.', prefix_chars='-')
 	parser.add_argument('-i', dest='oauthFile', action='store', required=True, help='OAuth file.')
 	parser.add_argument('-sn', dest='sheetName', action='store', required=True, help='The name of the excel sheet.')
+	parser.add_argument('-ws', dest='worksheet', action='store', required=True, help='The name of the work sheet.')
 	
 	args = parser.parse_args()
 	
-	if not args.oauthFile:
-		parser.print_help()
-		Sys.exit(2)
-	if not args.sheetName:
-		parser.print_help()
-		Sys.exit(2)
-	
 	oauthFile = args.oauthFile
 	sheetName = args.sheetName
+	worksheet = args.worksheet
 	
+	print('\n========================================')
 	print('Input file is [%s].' % oauthFile)
-	print('Sheet name is [%s].' % sheetName)
+	print('Excel sheet name is [%s].' % sheetName)
+	print('Work sheet name is [%s].' % worksheet)
+	print('========================================\n')
 	
 	json_key = json.load(open(oauthFile))
 	scope = ['https://spreadsheets.google.com/feeds']
@@ -35,8 +33,7 @@ def main(argv):
 	credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
 	
 	gc = gspread.authorize(credentials)
-	
-	wks = gc.open("Test Sheet 1").sheet1
+	wks = gc.open(sheetName).worksheet(worksheet)
 	
 	print('Cell A1 is [%s].' % wks.acell('A1').value)
 	print('Cell A2 is [%s].' % wks.acell('A2').value)

@@ -8,7 +8,7 @@ Barcode scanner project for the Raspberry Pi.
 
 _Notes:_
 
-1. _These instructions are for Debian based UNIX systems._
+1. _These instructions are for Debian based systems._
 2. _These instructions should be performed on the system which will be running the program._
 
 ## Requirements
@@ -35,10 +35,30 @@ git clone https://github.com/DWiechert/pi-scanner.git
 * Download the oauth file created in the [requirements](#requirements)
 
 ## Running
-To run, the oauth file downloaded in the [requirements](#requirements) must be passed in with the `-i` argument:
+To run, 3 command line arguments are required:
+* `-i` - OAuth file - this is the oauth file downloaded in the [requirements](#requirements) section
+* `-sn` - The name of the excel sheet.
+* `-ws` - The name of the work sheet
+
+An example run is:
 ```
-python pi-scanner.py -i <path to oauth json file>
+python pi-scanner.py -i <path to oauth json file> -sn <excel spreadsheet name> -ws <worksheet name>
 ```
+The `-h` option is available to see the options:
+```
+dan@cbpp:~/documents/pi-scanner$ python pi-scanner.py -h
+usage: pi-scanner.py [-h] -i OAUTHFILE -sn SHEETNAME -ws WORKSHEET
+
+pi-scanner - Barcode scanner project for the Raspberry Pi.
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -i OAUTHFILE   OAuth file.
+  -sn SHEETNAME  The name of the excel sheet.
+  -ws WORKSHEET  The name of the work sheet.
+dan@cbpp:~/documents/pi-scanner$ 
+```
+
 Once running, just enter in the barcode you would like to search for:
 ```
 Enter the barcode: <input>
