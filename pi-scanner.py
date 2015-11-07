@@ -3,25 +3,31 @@ pi-scanner
 Barcode scanner project for the Raspberry Pi.
 """
 
-import sys, getopt
+import sys, argparse
 import json
 import gspread
 from gspread.exceptions import CellNotFound
 from oauth2client.client import SignedJwtAssertionCredentials
 
 def main(argv):
-	oauthFile = ''
-	try:
-		opts, args = getopt.getopt(argv,"i:",["ifile="])
-	except getopt.GetoptError:
-		print 'pi-scanner.py -i <oauth file>'
-		sys.exit(2)
-			
-	for opt, arg in opts:
-		if opt in ("-i", "--ifile"):
-			oauthFile = arg		
+	parser = argparse.ArgumentParser(description='pi-scanner - Barcode scanner project for the Raspberry Pi.', prefix_chars='-')
+	parser.add_argument('-i', dest='oauthFile', action='store', required=True, help='OAuth file.')
+	parser.add_argument('-sn', dest='sheetName', action='store', required=True, help='The name of the excel sheet.')
+	
+	args = parser.parse_args()
+	
+	if not args.oauthFile:
+		parser.print_help()
+		Sys.exit(2)
+	if not args.sheetName:
+		parser.print_help()
+		Sys.exit(2)
+	
+	oauthFile = args.oauthFile
+	sheetName = args.sheetName
 	
 	print('Input file is [%s].' % oauthFile)
+	print('Sheet name is [%s].' % sheetName)
 	
 	json_key = json.load(open(oauthFile))
 	scope = ['https://spreadsheets.google.com/feeds']
