@@ -9,7 +9,8 @@ import gspread
 from gspread.exceptions import CellNotFound
 from oauth2client.client import SignedJwtAssertionCredentials
 
-def main(argv):
+def main():
+	# Parse the command line arguments - https://docs.python.org/2/library/argparse.html
 	parser = argparse.ArgumentParser(description='pi-scanner - Barcode scanner project for the Raspberry Pi.', prefix_chars='-')
 	parser.add_argument('-i', dest='oauthFile', action='store', required=True, help='OAuth file.')
 	parser.add_argument('-sn', dest='sheetName', action='store', required=True, help='The name of the excel sheet.')
@@ -27,11 +28,13 @@ def main(argv):
 	print('Work sheet name is [%s].' % worksheet)
 	print('========================================\n')
 
+	# Login through oauth (#6) - http://gspread.readthedocs.org/en/latest/oauth2.html
 	json_key = json.load(open(oauthFile))
 	scope = ['https://spreadsheets.google.com/feeds']
 
 	credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
 
+	# Open the specified excel sheet and worksheet - http://gspread.readthedocs.org/en/latest/index.html
 	gc = gspread.authorize(credentials)
 	wks = gc.open(sheetName).worksheet(worksheet)
 
@@ -58,4 +61,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
