@@ -9,6 +9,18 @@ import gspread
 from gspread.exceptions import CellNotFound
 from oauth2client.client import SignedJwtAssertionCredentials
 
+def _filterByRow(seq, row, default=None):
+	for element in seq:
+		if element.row == row:
+			return element
+	return default
+
+def _filterByCol(seq, col, default=None):
+	for element in seq:
+		if element.col == col:
+			return element
+	return default
+
 def main():
 	# Parse the command line arguments - https://docs.python.org/2/library/argparse.html
 	parser = argparse.ArgumentParser(description='pi-scanner - Barcode scanner project for the Raspberry Pi.', prefix_chars='-')
@@ -37,6 +49,11 @@ def main():
 	# Open the specified excel sheet and worksheet - http://gspread.readthedocs.org/en/latest/index.html
 	gc = gspread.authorize(credentials)
 	wks = gc.open(sheetName).worksheet(worksheet)
+
+	ele1 = _filterByRow(wks.findall("FEC-1-1-1"), 4)
+	print(ele1)
+	ele2 = _filterByCol(wks.findall("FEC-1-1-1"), 3)
+	print(ele2)
 
 	print('Cell A1 is [%s].' % wks.acell('A1').value)
 	print('Cell A2 is [%s].' % wks.acell('A2').value)
