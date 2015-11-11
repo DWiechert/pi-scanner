@@ -15,17 +15,17 @@ def _check_negative(value):
          raise argparse.ArgumentTypeError("%s is an invalid positive int value" % value)
     return ivalue
 
-def _filterByRow(seq, row, default=None):
+def _filterByRow(seq, row):
 	for element in seq:
 		if element.row == row:
 			return element
-	return default
+	raise CellNotFound
 
-def _filterByCol(seq, col, default=None):
+def _filterByCol(seq, col):
 	for element in seq:
 		if element.col == col:
 			return element
-	return default
+	raise CellNotFound
 
 def main():
 	# Parse the command line arguments - https://docs.python.org/2/library/argparse.html
@@ -65,13 +65,6 @@ def main():
 	gc = gspread.authorize(credentials)
 	wks = gc.open(sheetName).worksheet(worksheet)
 
-	if rowFilter is not None:
-		ele1 = _filterByRow(wks.findall("FEC-1-1-1"), rowFilter)
-		print(ele1)
-	if colFilter is not None:
-		ele2 = _filterByCol(wks.findall("FEC-1-1-1"), colFilter)
-		print(ele2)
-
 	print('Cell A1 is [%s].' % wks.acell('A1').value)
 	print('Cell A2 is [%s].' % wks.acell('A2').value)
 	print('Cell B1 is [%s].' % wks.acell('B1').value)
@@ -84,7 +77,12 @@ def main():
 
 		print('Barcode is [%s].' % barcode)
 		try:
-			cell = wks.find(barcode)
+			if rowFilter is not None:
+				cell = _filterByRow(wks.findall(barcode), rowFilter)
+			elif colFilter is not None:
+				cell = _filterByCol(wks.findall(barcode), colFilter)
+			else:
+				cell = wks.find(barcode)
 			print('Barcode found at row [%s] column [%s].' % (cell.row, cell.col))
 		except CellNotFound:
 			wks.add_rows(1)
@@ -92,7 +90,6 @@ def main():
 			wks.update_cell(row_count, 1, barcode)
 			cell = wks.find(barcode)
 			print('Barcode added at row [%s] column [%s].' % (cell.row, cell.col))
-
 
 if __name__ == "__main__":
     main()
