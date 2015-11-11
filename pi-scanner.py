@@ -9,6 +9,12 @@ import gspread
 from gspread.exceptions import CellNotFound
 from oauth2client.client import SignedJwtAssertionCredentials
 
+def _check_negative(value):
+    ivalue = int(value)
+    if ivalue < 1:
+         raise argparse.ArgumentTypeError("%s is an invalid positive int value" % value)
+    return ivalue
+
 def _filterByRow(seq, row, default=None):
 	for element in seq:
 		if element.row == row:
@@ -27,17 +33,26 @@ def main():
 	parser.add_argument('-i', dest='oauthFile', action='store', required=True, help='OAuth file.')
 	parser.add_argument('-sn', dest='sheetName', action='store', required=True, help='The name of the excel sheet.')
 	parser.add_argument('-ws', dest='worksheet', action='store', required=True, help='The name of the work sheet.')
+	search_group = parser.add_mutually_exclusive_group()
+	search_group.add_argument('-rf', dest='rowFilter', action='store', help='Row number to filter results by.', type=_check_negative)
+	search_group.add_argument('-cf', dest='colFilter', action='store', help='Column number to filter results by.', type=_check_negative)
 
 	args = parser.parse_args()
 
 	oauthFile = args.oauthFile
 	sheetName = args.sheetName
 	worksheet = args.worksheet
+	rowFilter = args.rowFilter
+	colFilter = args.colFilter
 
 	print('\n========================================')
 	print('Input file is [%s].' % oauthFile)
 	print('Excel sheet name is [%s].' % sheetName)
 	print('Work sheet name is [%s].' % worksheet)
+	if rowFilter is not None:
+		print ('Filtering on row [%s].' % rowFilter)
+	if colFilter is not None:
+		print ('Filtering on column [%s].' % colFilter)
 	print('========================================\n')
 
 	# Login through oauth (#6) - http://gspread.readthedocs.org/en/latest/oauth2.html
@@ -50,10 +65,12 @@ def main():
 	gc = gspread.authorize(credentials)
 	wks = gc.open(sheetName).worksheet(worksheet)
 
-	ele1 = _filterByRow(wks.findall("FEC-1-1-1"), 4)
-	print(ele1)
-	ele2 = _filterByCol(wks.findall("FEC-1-1-1"), 3)
-	print(ele2)
+	if rowFilter is not None:
+		ele1 = _filterByRow(wks.findall("FEC-1-1-1"), rowFilter)
+		print(ele1)
+	if colFilter is not None:
+		ele2 = _filterByCol(wks.findall("FEC-1-1-1"), colFilter)
+		print(ele2)
 
 	print('Cell A1 is [%s].' % wks.acell('A1').value)
 	print('Cell A2 is [%s].' % wks.acell('A2').value)
