@@ -10,10 +10,10 @@ from gspread.exceptions import CellNotFound
 from oauth2client.client import SignedJwtAssertionCredentials
 
 def _check_positive(value):
-    ivalue = int(value)
-    if ivalue < 1:
-         raise argparse.ArgumentTypeError("[%s] must be a positive integer." % value)
-    return ivalue
+	ivalue = int(value)
+	if ivalue < 1:
+		 raise argparse.ArgumentTypeError("[%s] must be a positive integer." % value)
+	return ivalue
 
 def _filterByRow(seq, row):
 	for element in seq:
@@ -74,7 +74,7 @@ def main():
 	gc = gspread.authorize(credentials)
 	wks = gc.open(sheetName).worksheet(worksheet)
 
-	while True:    # Read input forever
+	while True:	# Read input forever
 		barcode = raw_input("\nEnter the barcode: ")
 		if barcode == "quit":
 			break  # Exit the program
@@ -101,15 +101,22 @@ def main():
 		except CellNotFound:
 			wks.add_rows(1)
 			row_count = wks.row_count
-			# Put the value in the value filter row
-			if valueFilterCol is not None:
-				col = valueFilterCol
+			# Put the barcode in the search filter row
+			if searchFilterCol is not None:
+				searchCol = searchFilterCol
 			else:
-				col = 1
-			wks.update_cell(row_count, col, barcode)
+				searchCol = 1
+			# Save barcode in the search column
+			wks.update_cell(row_count, searchCol, barcode)
+			# Put a value of 1 in the value column
+			if valueFilterCol is not None:
+				valCol = valueFilterCol
+			else:
+				valCol = 1
+			wks.update_cell(row_count, valCol, 1)
 			# TODO: Determine if we want to print out where the cell was added
 			# cell = wks.find(barcode)
 			# print('Barcode added at row [%s] column [%s].' % (cell.row, cell.col))
 
 if __name__ == "__main__":
-    main()
+	main()
