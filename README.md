@@ -39,8 +39,7 @@ The `-h` option is available to see the options:
 ```
 dan@cbpp:~/documents/pi-scanner$ python pi-scanner.py -h
 usage: pi-scanner.py [-h] -i OAUTHFILE -sn SHEETNAME -ws WORKSHEET
-                     [-sfr SEARCHFILTERROW | -sfc SEARCHFILTERCOL]
-                     [-vfr VALUEFILTERROW | -vfc VALUEFILTERCOL]
+                     [-sfc SEARCHFILTERCOL] [-vfc VALUEFILTERCOL]
 
 pi-scanner - Barcode scanner project for the Raspberry Pi.
 
@@ -49,9 +48,7 @@ optional arguments:
   -i OAUTHFILE          OAuth file.
   -sn SHEETNAME         The name of the excel sheet.
   -ws WORKSHEET         The name of the work sheet.
-  -sfr SEARCHFILTERROW  Row number for search filtering results.
   -sfc SEARCHFILTERCOL  Column number for search filtering results.
-  -vfr VALUEFILTERROW   Row number for value filtering results.
   -vfc VALUEFILTERCOL   Column number for value filtering results.
 dan@cbpp:~/documents/pi-scanner$
 ```
