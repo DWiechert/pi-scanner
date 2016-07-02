@@ -35,7 +35,27 @@ git clone https://github.com/DWiechert/pi-scanner.git
 * Download the oauth file created in the [requirements](#requirements)
 
 ## Running
-To run, 3 command line arguments are required:
+The `-h` option is available to see the options:
+```
+dan@cbpp:~/documents/pi-scanner$ python pi-scanner.py -h
+usage: pi-scanner.py [-h] -i OAUTHFILE -sn SHEETNAME -ws WORKSHEET
+                     [-sfr SEARCHFILTERROW | -sfc SEARCHFILTERCOL]
+                     [-vfr VALUEFILTERROW | -vfc VALUEFILTERCOL]
+
+pi-scanner - Barcode scanner project for the Raspberry Pi.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i OAUTHFILE          OAuth file.
+  -sn SHEETNAME         The name of the excel sheet.
+  -ws WORKSHEET         The name of the work sheet.
+  -sfr SEARCHFILTERROW  Row number for search filtering results.
+  -sfc SEARCHFILTERCOL  Column number for search filtering results.
+  -vfr VALUEFILTERROW   Row number for value filtering results.
+  -vfc VALUEFILTERCOL   Column number for value filtering results.
+dan@cbpp:~/documents/pi-scanner$
+```
+To run, the following 3 command line arguments are required:
 * `-i` - OAuth file - this is the oauth file downloaded in the [requirements](#requirements) section
 * `-sn` - The name of the excel sheet.
 * `-ws` - The name of the work sheet
@@ -52,19 +72,18 @@ Excel sheet name is [My Excel Spreadsheet].
 Work sheet name is [Sheet1].
 ========================================
 ```
-The `-h` option is available to see the options:
+
+To specify certain columns to query barcodes and values by, use the additional command line options:
 ```
-dan@cbpp:~/documents/pi-scanner$ python pi-scanner.py -h
-usage: pi-scanner.py [-h] -i OAUTHFILE -sn SHEETNAME -ws WORKSHEET
+dan@cbpp:~/documents/pi-scanner$ python pi-scanner.py -i /home/dan/downloads/Pi-Scanner-0cfdd60eae49.json -ws Sheet1 -sn "Test Sheet 1" -sfc 1 -vfc 3
 
-pi-scanner - Barcode scanner project for the Raspberry Pi.
-
-optional arguments:
-  -h, --help     show this help message and exit
-  -i OAUTHFILE   OAuth file.
-  -sn SHEETNAME  The name of the excel sheet.
-  -ws WORKSHEET  The name of the work sheet.
-dan@cbpp:~/documents/pi-scanner$ 
+========================================
+Input file is [/home/dan/downloads/Pi-Scanner-0cfdd60eae49.json].
+Excel sheet name is [Test Sheet 1].
+Work sheet name is [Sheet1].
+Search filtering on column [1].
+Value filtering on column [3].
+========================================
 ```
 
 Once running, just enter in the barcode you would like to search for:
@@ -81,13 +100,16 @@ Barcode found at row 13 column 1
 ```
 If the barcode is not found, it will insert the barcode as a new cell:
 ```
-Enter the barcode: asdf
-Barcode is asdf
+Enter the barcode: 82050004696506142016
+Barcode is [82050004696506142016].
+Barcode found at row [17] column [1].
+Value found is [456].
 
-Barcode added at row 13 column 1
-```
-To quit, just enter `quit` as the barcode:
-```
+Enter the barcode: 261690866007991418
+Barcode is [261690866007991418].
+Barcode found at row [16] column [1].
+Value found is [123].
+
 Enter the barcode: quit
-dan@cbpp:~/documents/piscanner$
+dan@cbpp:~/documents/pi-scanner$
 ```
